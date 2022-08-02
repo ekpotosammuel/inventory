@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreCartRequest;
 use App\Http\Requests\UpdateCartRequest;
 use App\Models\Cart;
+use App\Models\Product;
 
 class CartController extends Controller
 {
@@ -15,18 +16,9 @@ class CartController extends Controller
      */
     public function index()
     {
-        //
+        return Cart::all();
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
 
     /**
      * Store a newly created resource in storage.
@@ -36,8 +28,24 @@ class CartController extends Controller
      */
     public function store(StoreCartRequest $request)
     {
-        //
+        $this->validate($request,[
+            'user_id'=>'required',
+            'product_id'=>'required',
+            'qty'=>'required',
+            
+        ]);
+        $cart =  new Cart();
+        $cart->user_id=$request->input('user_id');
+        $cart->product_id=$request->input('product_id');
+        $cart->qty=$request->input('qty');
+        $cart->save();
+
+        $product = Product::find($request->product_id);;
+        $product->qty = $product->qty - $cart->qty;
+        $product->update();
+        
     }
+
 
     /**
      * Display the specified resource.

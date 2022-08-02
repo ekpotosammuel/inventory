@@ -4,6 +4,7 @@ use App\Http\Controllers\ProductController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\AuthController;
+use App\Http\Controllers\CartController;
 use App\Http\Controllers\RoleController;
 use GuzzleHttp\Middleware;
 use Illuminate\Auth\Middleware\AdminAuth;
@@ -26,6 +27,11 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
+
+Route::prefix('cart')->group(function(){
+    Route::get('/', [CartController::class, 'index']);
+    Route::post('/', [CartController::class, 'store']);
+});
 
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
@@ -64,6 +70,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
             Route::delete('/{id}', [RoleController::class, 'destroy']);
         });
     });
+
 
  
 });
