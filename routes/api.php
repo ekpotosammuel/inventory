@@ -50,7 +50,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
 
         Route::group(['middleware' => ['admin.auth']], function(){
             Route::post('/', [ProductController::class, 'store']);
-            Route::put('/{id}', [ProductController::class, 'update']);
+            Route::post('/{id}', [ProductController::class, 'update']);
             Route::delete('/{id}', [ProductController::class, 'destroy']);
 
         });

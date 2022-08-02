@@ -33,10 +33,10 @@ class ProductController extends Controller
             'qty'=>'required',
             ]);
             $product = new Product();
-            $product->name=$request->input('name');
-            $product->price=$request->input('price');
-            $product->image=$request->file('image')->store('buckets/images');
-            $product->qty=$request->input('qty');
+            $product->name          =   $request->input('name');
+            $product->price         =   $request->input('price');
+            $product->image         =   $request->file('image')->store('buckets/images');
+            $product->qty           =   $request->input('qty');
             $product->save();
             return response()->json([
                 'status' => 'Product Created Successfuly',
@@ -71,11 +71,12 @@ class ProductController extends Controller
             'qty'=>'required',
             ]);
             $product = Product::findorFail($id);
-            $product->name=$request->input('name');
-            $product->price=$request->input('price');
-            $product->image=$request->input('image');
-            $product->qty=$request->input('qty');
+            $product->name          =   $request->input('name');
+            $product->price         =   $request->input('price');
+            $product->image         =   $request->file('image')->store('buckets/images');
+            $product->qty           =   $request->input('qty');
             $product->update();
+
             return response()->json([
                 'status' => 'Prdouct Updated Sucessfully',
             ],200);
