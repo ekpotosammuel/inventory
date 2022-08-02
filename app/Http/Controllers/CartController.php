@@ -28,25 +28,38 @@ class CartController extends Controller
      */
     public function store(StoreCartRequest $request)
     {
+        $user = auth('sanctum')->user()->id;
         $this->validate($request,[
-            'user_id'=>'required',
             'product_id'=>'required',
             'qty'=>'required',
             
         ]);
+
+        $product = Product::find($request->product_id);
         $cart =  new Cart();
-        $cart->user_id=$request->input('user_id');
-        $cart->product_id=$request->input('product_id');
-        $cart->qty=$request->input('qty');
+        $cart->user_id          =   $user;
+        $cart->product_id       =   $request->input('product_id');
+        $cart->qty              =   $request->input('qty');
+        if ($product->qty === 0) {
+            return response()->json([
+                'Message' => 'We Have '.$product->qty.' '.$product->name. ' Out of Stock',
+                ]);
+        }elseif ($cart->qty > $product->qty)
+            return response()->json([
+                'Status' => 'Numbers of Iteam You Want To Cart '.$cart->qty.' We Have '. $product->qty. ' Avalaible',
+            ]);
         $cart->save();
 
-        $product = Product::find($request->product_id);;
+        $product = Product::find($request->product_id);
+        $product->qty;
         $product->qty = $product->qty - $cart->qty;
         $product->update();
         
         return response()->json([
             'status' => 'Cart Sucessful',
         ],200);
+
+        
     }
 
 
