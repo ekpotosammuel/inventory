@@ -44,6 +44,9 @@ class CartController extends Controller
         $product->qty = $product->qty - $cart->qty;
         $product->update();
         
+        return response()->json([
+            'status' => 'Cart Sucessful',
+        ],200);
     }
 
 
@@ -53,20 +56,9 @@ class CartController extends Controller
      * @param  \App\Models\Cart  $cart
      * @return \Illuminate\Http\Response
      */
-    public function show(Cart $cart)
+    public function show(Cart $cart, $id)
     {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Cart  $cart
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Cart $cart)
-    {
-        //
+        return Cart::findorFail($id);
     }
 
     /**
@@ -87,8 +79,12 @@ class CartController extends Controller
      * @param  \App\Models\Cart  $cart
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Cart $cart)
+    public function destroy(Cart $cart, $id)
     {
-        //
+        $cart = Cart::findorFail($id);
+        if($cart->delete()){
+            
+            return 'deleted successfully';
+        }
     }
 }

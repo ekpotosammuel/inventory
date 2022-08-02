@@ -66,11 +66,8 @@ class AuthController extends Controller
     }
     public function logout(Request $request)
     {
-        // dd('logout');
         session()->flush();
         session()->put('is_login', false);
         return redirect()->route('login');
-        // auth()->logout();
-        // return redirect()->route('home');
     }
 }

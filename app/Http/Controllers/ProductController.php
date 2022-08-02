@@ -38,11 +38,9 @@ class ProductController extends Controller
             $product->image=$request->file('image')->store('buckets/images');
             $product->qty=$request->input('qty');
             $product->save();
-            // $data = [
-            //     'status' 		=> 'success',
-            //     "message" => "student record created"
-            // ];
-            return $product;
+            return response()->json([
+                'status' => 'Product Created Successfuly',
+            ],200);
     }
 
     /**
@@ -78,7 +76,9 @@ class ProductController extends Controller
             $product->image=$request->input('image');
             $product->qty=$request->input('qty');
             $product->update();
-            return $product;
+            return response()->json([
+                'status' => 'Prdouct Updated Sucessfully',
+            ],200);
     }
 
     /**
