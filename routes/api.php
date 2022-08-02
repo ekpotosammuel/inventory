@@ -56,17 +56,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
         Route::get('/{id}', [ProductController::class, 'show']);
         Route::get('/', [ProductController::class, 'index']);
 
-/*
-|--------------------------------------------------------------------------
-| API Routes for Cart 
-|--------------------------------------------------------------------------
-*/
-    Route::prefix('cart')->group(function(){
-        Route::get('/', [CartController::class, 'index']);
-        Route::post('/', [CartController::class, 'store']);
-        Route::get('/{id}', [CartController::class, 'show']);
-        Route::delete('/{id}', [CartController::class, 'destroy']);
-    });
+
 
 
 
@@ -91,6 +81,18 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
             Route::put('/{id}', [RoleController::class, 'update']);
             Route::delete('/{id}', [RoleController::class, 'destroy']);
         });
+    });
+
+    /*
+    |--------------------------------------------------------------------------
+    | API Routes for Cart 
+    |--------------------------------------------------------------------------
+    */
+    Route::prefix('cart')->group(function(){
+        Route::get('/', [CartController::class, 'index']);
+        Route::post('/', [CartController::class, 'store']);
+        Route::get('/{id}', [CartController::class, 'show']);
+        Route::delete('/{id}', [CartController::class, 'destroy']);
     });
 
 
