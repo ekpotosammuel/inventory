@@ -27,27 +27,54 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-
+/*
+|--------------------------------------------------------------------------
+| API Routes for register & login
+|--------------------------------------------------------------------------
+*/
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
 
+
+/*
+|--------------------------------------------------------------------------
+| API Routes for admin & User
+|--------------------------------------------------------------------------
+*/
 Route::group(['middleware' => ['auth:sanctum']], function () {
 
-    /*
-    |--------------------------------------------------------------------------
-    | API Routes for Roles
-    |--------------------------------------------------------------------------
-    */
-   
     Route::post('/logout', [AuthController::class, 'logout']);
 
-
+/*
+|--------------------------------------------------------------------------
+| API Routes for Product View
+|--------------------------------------------------------------------------
+*/
     Route::prefix('product')->group(function(){
        
         // Route::post('/', [ProductController::class, 'store']);
         Route::get('/{id}', [ProductController::class, 'show']);
         Route::get('/', [ProductController::class, 'index']);
 
+/*
+|--------------------------------------------------------------------------
+| API Routes for Cart 
+|--------------------------------------------------------------------------
+*/
+    Route::prefix('cart')->group(function(){
+        Route::get('/', [CartController::class, 'index']);
+        Route::post('/', [CartController::class, 'store']);
+        Route::get('/{id}', [CartController::class, 'show']);
+        Route::delete('/{id}', [CartController::class, 'destroy']);
+    });
+
+
+
+    /*
+|--------------------------------------------------------------------------
+| API Routes for Admin Acess Only
+|--------------------------------------------------------------------------
+*/
         Route::group(['middleware' => ['admin.auth']], function(){
             Route::post('/', [ProductController::class, 'store']);
             Route::post('/{id}', [ProductController::class, 'update']);
@@ -66,12 +93,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
         });
     });
 
-    Route::prefix('cart')->group(function(){
-        Route::get('/', [CartController::class, 'index']);
-        Route::post('/', [CartController::class, 'store']);
-        Route::get('/{id}', [CartController::class, 'show']);
-        Route::delete('/{id}', [CartController::class, 'destroy']);
-    });
+
 
  
 });
